@@ -64,7 +64,7 @@ function App() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <a
-            href="/instructions.html"
+            href="./instructions.html"
             target="_blank"
             rel="noopener noreferrer"
             className="instructions-link"
