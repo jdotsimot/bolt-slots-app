@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolt Slot Generator - User Guide</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-color: #06b6d4;
+            --border-color: #334155;
+            --warning-bg: #450a0a;
+            --warning-border: #991b1b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            color: var(--accent-color);
+        }
+
+        .warning {
+            background-color: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.25rem;
+            border: 1px solid var(--border-color);
+            margin: 1rem 0;
+        }
+
+        code {
+            background-color: #000;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        a {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <h1>Bolt Slot Generator User Guide</h1>
+
+    <div class="warning">
+        <strong>⚠️ IMPORTANT:</strong> This tool only works if the slots are on <strong>both ends</strong> and <strong>centered on the parallel</strong> (the most common configuration).
+        <br><br>
+        If the slots are off-center, if it is a bolt-on foot with multiple slots, or if there are slots on only one end, <strong>DO NOT USE THIS APP</strong>. Please see a CNC programmer.
+    </div>
+
+    <div class="step">
+        <h3><span class="step-number">1</span> Measure Features</h3>
+        <p>Open your part in <strong>Fusion 360</strong> or <strong>eDrawings</strong> and measure the following required features:</p>
+        <ul>
+            <li><strong>Slot Width:</strong> The width of the bolt slot.</li>
+            <li><strong>Slot Length:</strong> The length of the slot from the rail edge to the flat end (excluding radius).</li>
+            <li><strong>Parallel Width:</strong> The overall width of the parallel.</li>
+            <li><strong>Parallel Length:</strong> The overall length of the parallel.</li>
+            <li><strong>Foot Height:</strong> The height of the foot feature.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-number">2</span> Input Parameters</h3>
+        <p>Select your machine controller (<strong>Mazak</strong> or <strong>Big Mills</strong>) and enter the measurements you took in Step 1.</p>
+        <img src="app-screenshot.png" alt="App Screenshot showing Mazak selection">
+    </div>
+
+    <div class="step">
+        <h3><span class="step-number">3</span> Verify on NC Viewer</h3>
+        <p>Before running the code on a machine, you must visually verify it:</p>
+        <ol>
+            <li>Click the <strong>"Copy to Clipboard"</strong> button in the app.</li>
+            <li>Click the <strong>"NC Viewer"</strong> button to open <a href="https://ncviewer.com" target="_blank">ncviewer.com</a> in a new tab.</li>
+            <li>In NC Viewer, paste the code into the editor.</li>
+            <li>Click <strong>"Plot"</strong> to view the toolpath.</li>
+            <li>Ensure the toolpath matches your expectations.</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-number">4</span> Download G-Code</h3>
+        <p>Once verified, go back to the app tab and click the <strong>"Download"</strong> button.</p>
+        <ul>
+            <li>For Mazak, the file will be named <code>1111.eia</code>.</li>
+            <li>For Big Mills, the file will be named <code>O1111</code>.</li>
+        </ul>
+        <img src="app-screenshot-bigmills.png" alt="App Screenshot showing Big Mills selection">
+    </div>
+
+    <div class="step">
+        <h3><span class="step-number">5</span> Transfer to Machine</h3>
+        <p>Locate the downloaded file in your <strong>Downloads</strong> folder and copy it into the appropriate machine <strong>FTP folder</strong> on the network.</p>
+    </div>
+
+    <div class="footer">
+        Steelcraft Technologies | Bolt Slot Generator v1.0.0
+    </div>
+</body>
+</html>

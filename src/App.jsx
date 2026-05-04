@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Copy, Download, ExternalLink, AlertTriangle, Check } from 'lucide-react';
+import { Settings, Copy, Download, ExternalLink, AlertTriangle, Check, HelpCircle } from 'lucide-react';
 import { generateGCode, MACHINES } from './utils/generators';
 import Diagram from './components/Diagram';
 
@@ -43,7 +43,7 @@ function App() {
   };
 
   const handleDownload = () => {
-    const filename = params.machine === MACHINES.MAZAK ? '1111.eia' : '1111';
+    const filename = params.machine === MACHINES.MAZAK ? '1111.eia' : 'O1111';
     const blob = new Blob([gcode], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -62,8 +62,28 @@ function App() {
           <Settings size={32} color="var(--accent-color)" />
           <h1 style={{ margin: 0 }}>Bolt Slot Generator</h1>
         </div>
-        <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-          v1.0.0 | Steelcraft Technologies
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <a
+            href="/instructions.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="instructions-link"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              color: 'var(--accent-color)',
+              textDecoration: 'none',
+              fontSize: '0.9rem',
+              fontWeight: '500'
+            }}
+          >
+            <HelpCircle size={18} />
+            User Guide
+          </a>
+          <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+            v1.0.0 | Steelcraft Technologies
+          </div>
         </div>
       </header>
 
@@ -138,7 +158,7 @@ function App() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <h2 style={{ margin: 0 }}>G-Code Preview</h2>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-            Filename: {params.machine === MACHINES.MAZAK ? '1111.eia' : '1111'}
+            Filename: {params.machine === MACHINES.MAZAK ? '1111.eia' : 'O1111'}
           </div>
         </div>
 
