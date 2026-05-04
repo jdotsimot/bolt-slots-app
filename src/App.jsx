@@ -44,7 +44,7 @@ function App() {
 
   const handleDownload = () => {
     const filename = params.machine === MACHINES.MAZAK ? '1111.eia' : 'O1111';
-    const blob = new Blob([gcode], { type: 'text/plain' });
+    const blob = new Blob([gcode], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
