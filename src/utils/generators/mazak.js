@@ -99,7 +99,7 @@ export const generateMazak = (params) => {
 
     while (currentZ > zTarget) {
         currentZ = Math.max(currentZ - step, zTarget);
-        lines.push(`N${lineNum++} G1 Z${currentZ.toFixed(3)} F${tool.feed}`);
+        lines.push(`N${lineNum++} G1 Z${currentZ.toFixed(3)} F${tool.feed.toFixed(1)}`);
         lines.push(`N${lineNum++} X${innerX.toFixed(3)}`);
         lines.push(`N${lineNum++} G3 Y${(-yOffset).toFixed(3)} I0. J${(-yOffset).toFixed(3)}`);
         lines.push(`N${lineNum++} G1 X${startX.toFixed(3)}`);
@@ -117,7 +117,7 @@ export const generateMazak = (params) => {
     currentZ = 0;
     while (currentZ > zTarget) {
         currentZ = Math.max(currentZ - step, zTarget);
-        lines.push(`N${lineNum++} G1 Z${currentZ.toFixed(3)} F${tool.feed}`);
+        lines.push(`N${lineNum++} G1 Z${currentZ.toFixed(3)} F${tool.feed.toFixed(1)}`);
         lines.push(`N${lineNum++} X${(-innerX).toFixed(3)}`);
         lines.push(`N${lineNum++} G3 Y${yOffset.toFixed(3)} I0. J${yOffset.toFixed(3)}`);
         lines.push(`N${lineNum++} G1 X${(-startX).toFixed(3)}`);

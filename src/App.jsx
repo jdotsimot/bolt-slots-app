@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Settings, Copy, Download, ExternalLink, AlertTriangle, Check, HelpCircle } from 'lucide-react';
 import { generateGCode, MACHINES } from './utils/generators';
 import Diagram from './components/Diagram';
@@ -17,7 +17,18 @@ function App() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setParams(prev => ({
+      ...prev,
+      [name]: name === 'machine' ? value : parseFloat(value) || 0
+    }));
+    // Clear G-code when parameters change to encourage re-generation
+    setGcode('');
+    setError('');
+  };
+
+  const handleGenerate = () => {
     if (params.slotWidth <= 0.750) {
       setError("⚠️ Slot width too small. Please contact a CNC programmer with CAM for slots 0.750\" or smaller.");
       setGcode('');
@@ -26,14 +37,6 @@ function App() {
       const code = generateGCode(params.machine, params);
       setGcode(code);
     }
-  }, [params]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setParams(prev => ({
-      ...prev,
-      [name]: name === 'machine' ? value : parseFloat(value) || 0
-    }));
   };
 
   const handleCopy = () => {
@@ -152,6 +155,17 @@ function App() {
         </div>
 
         <Diagram />
+
+        <div style={{ marginTop: '1.5rem' }}>
+          <button
+            className="btn btn-primary"
+            style={{ width: '100%', justifyContent: 'center', gap: '0.5rem' }}
+            onClick={handleGenerate}
+          >
+            <Settings size={20} />
+            Generate G-Code
+          </button>
+        </div>
       </div>
 
       <div className="panel">
@@ -170,7 +184,7 @@ function App() {
         )}
 
         <div className="gcode-preview">
-          {gcode || (error ? '---' : 'Generating...')}
+          {gcode || (error ? '---' : 'Click "Generate G-Code" to create program...')}
         </div>
 
         <div className="action-bar">
