@@ -102,7 +102,7 @@ export const generateBigMills = (params) => {
 
     while (currentZ > zTarget) {
         currentZ = Math.max(currentZ - step, zTarget);
-        lines.push(`N${lineNum++} G01 Z${currentZ.toFixed(3)} F${tool.feed}`);
+        lines.push(`N${lineNum++} G01 Z${currentZ.toFixed(3)} F${tool.feed.toFixed(1)}`);
         lines.push(`N${lineNum++} X${innerX.toFixed(3)}`);
         lines.push(`N${lineNum++} G03 Y${(-yOffset).toFixed(3)} J${(-yOffset).toFixed(3)}`);
         lines.push(`N${lineNum++} G01 X${startX.toFixed(3)}`);
@@ -120,7 +120,7 @@ export const generateBigMills = (params) => {
     currentZ = 0;
     while (currentZ > zTarget) {
         currentZ = Math.max(currentZ - step, zTarget);
-        lines.push(`N${lineNum++} G01 Z${currentZ.toFixed(3)} F${tool.feed}`);
+        lines.push(`N${lineNum++} G01 Z${currentZ.toFixed(3)} F${tool.feed.toFixed(1)}`);
         lines.push(`N${lineNum++} X${(-innerX).toFixed(3)}`);
         lines.push(`N${lineNum++} G03 Y${yOffset.toFixed(3)} J${yOffset.toFixed(3)}`);
         lines.push(`N${lineNum++} G01 X${(-startX).toFixed(3)}`);
