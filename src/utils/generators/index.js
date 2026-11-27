@@ -1,6 +1,6 @@
-import { MACHINES } from './constants';
-import { generateMazak } from './mazak';
-import { generateBigMills } from './bigmills';
+import { MACHINES } from './constants.js';
+import { generateMazak } from './mazak.js';
+import { generateBigMills } from './bigmills.js';
 
 export const generateGCode = (machine, params) => {
     if (machine === MACHINES.MAZAK) {
@@ -11,4 +11,4 @@ export const generateGCode = (machine, params) => {
     return "";
 };
 
-export { MACHINES, TOOLS } from './constants';
+export { MACHINES, TOOLS } from './constants.js';

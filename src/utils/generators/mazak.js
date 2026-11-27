@@ -1,4 +1,5 @@
-import { TOOLS } from './constants';
+import { TOOLS } from './constants.js';
+import { fmt } from './format.js';
 
 export const generateMazak = (params) => {
     const { slotWidth, slotLength, parallelWidth, parallelLength, footHeight } = params;
@@ -17,7 +18,7 @@ export const generateMazak = (params) => {
     lines.push("(DOCUMENT: BOLT-SLOTS-APP V1)");
     lines.push(`(JOB DESCRIPTION: MAZAK ${slotWidth > 1.0 ? 'STANDARD' : 'SMALL'} SLOT)`);
     lines.push(`(T2 D=0.25 CR=0. TAPER=45DEG - ZMIN=0.05 - CHAMFER MILL)`);
-    lines.push(`(${tool.mazak.tool} D=${tool.diameter} CR=0.03 - ZMIN=${zTarget.toFixed(3)} - ${toolName})`);
+    lines.push(`(${tool.mazak.tool} D=${tool.diameter} CR=0.03 - ZMIN=${fmt(zTarget)} - ${toolName})`);
 
     lines.push("N1 G90 G94 G17 G49 G40 G80");
     lines.push("N2 G20");
@@ -42,23 +43,23 @@ export const generateMazak = (params) => {
     lines.push("N16 G54 G90");
 
     // Right Scribe
-    lines.push(`N17 G90 G0 X${(railEndX - 1).toFixed(3)} Y${scribeY.toFixed(3)}`);
+    lines.push(`N17 G90 G0 X${fmt(railEndX - 1)} Y${fmt(scribeY)}`);
     lines.push("N18 G43 Z4. H2");
     lines.push("N19 G0 Z0.25");
     lines.push("N20 G1 Z0.05 F100.");
-    lines.push(`N21 X${railEndX.toFixed(3)}`);
-    lines.push(`N22 Y${(-scribeY).toFixed(3)}`);
-    lines.push(`N23 X${(railEndX - 1).toFixed(3)}`);
+    lines.push(`N21 X${fmt(railEndX)}`);
+    lines.push(`N22 Y${fmt(-scribeY)}`);
+    lines.push(`N23 X${fmt(railEndX - 1)}`);
     lines.push("N24 Z0.25");
     lines.push("N25 G0 Z4.");
 
     // Left Scribe
-    lines.push(`N26 X${-(railEndX - 1).toFixed(3)} Y${scribeY.toFixed(3)}`);
+    lines.push(`N26 X${fmt(-(railEndX - 1))} Y${fmt(scribeY)}`);
     lines.push("N27 Z0.25");
     lines.push("N28 G1 Z0.05 F100.");
-    lines.push(`N29 X${(-railEndX).toFixed(3)}`);
-    lines.push(`N30 Y${(-scribeY).toFixed(3)}`);
-    lines.push(`N31 X${-(railEndX - 1).toFixed(3)}`);
+    lines.push(`N29 X${fmt(-railEndX)}`);
+    lines.push(`N30 Y${fmt(-scribeY)}`);
+    lines.push(`N31 X${fmt(-(railEndX - 1))}`);
     lines.push("N32 Z0.25");
     lines.push("N33 G0 Z4.");
     lines.push("N34 M5");
@@ -90,7 +91,7 @@ export const generateMazak = (params) => {
     const innerX = slotDepthX;
 
     // Right Slot
-    lines.push(`N${lineNum++} G90 G0 X${startX.toFixed(3)} Y${yOffset.toFixed(3)}`);
+    lines.push(`N${lineNum++} G90 G0 X${fmt(startX)} Y${fmt(yOffset)}`);
     lines.push(`N${lineNum++} G43 Z4. H${tool.mazak.holder.replace('H', '')}`);
     lines.push(`N${lineNum++} G0 Z0.25`);
 
@@ -99,30 +100,30 @@ export const generateMazak = (params) => {
 
     while (currentZ > zTarget) {
         currentZ = Math.max(currentZ - step, zTarget);
-        lines.push(`N${lineNum++} G1 Z${currentZ.toFixed(3)} F${tool.feed.toFixed(1)}`);
-        lines.push(`N${lineNum++} X${innerX.toFixed(3)}`);
-        lines.push(`N${lineNum++} G3 Y${(-yOffset).toFixed(3)} I0. J${(-yOffset).toFixed(3)}`);
-        lines.push(`N${lineNum++} G1 X${startX.toFixed(3)}`);
+        lines.push(`N${lineNum++} G1 Z${fmt(currentZ)} F${fmt(tool.feed, 1)}`);
+        lines.push(`N${lineNum++} X${fmt(innerX)}`);
+        lines.push(`N${lineNum++} G3 Y${fmt(-yOffset)} I0. J${fmt(-yOffset)}`);
+        lines.push(`N${lineNum++} G1 X${fmt(startX)}`);
         if (currentZ > zTarget) {
-            lines.push(`N${lineNum++} Y${yOffset.toFixed(3)}`);
+            lines.push(`N${lineNum++} Y${fmt(yOffset)}`);
         }
     }
 
     lines.push(`N${lineNum++} G0 Z4.`);
 
     // Left Slot
-    lines.push(`N${lineNum++} X${(-startX).toFixed(3)}`);
+    lines.push(`N${lineNum++} X${fmt(-startX)}`);
     lines.push(`N${lineNum++} Z0.25`);
 
     currentZ = 0;
     while (currentZ > zTarget) {
         currentZ = Math.max(currentZ - step, zTarget);
-        lines.push(`N${lineNum++} G1 Z${currentZ.toFixed(3)} F${tool.feed.toFixed(1)}`);
-        lines.push(`N${lineNum++} X${(-innerX).toFixed(3)}`);
-        lines.push(`N${lineNum++} G3 Y${yOffset.toFixed(3)} I0. J${yOffset.toFixed(3)}`);
-        lines.push(`N${lineNum++} G1 X${(-startX).toFixed(3)}`);
+        lines.push(`N${lineNum++} G1 Z${fmt(currentZ)} F${fmt(tool.feed, 1)}`);
+        lines.push(`N${lineNum++} X${fmt(-innerX)}`);
+        lines.push(`N${lineNum++} G3 Y${fmt(yOffset)} I0. J${fmt(yOffset)}`);
+        lines.push(`N${lineNum++} G1 X${fmt(-startX)}`);
         if (currentZ > zTarget) {
-            lines.push(`N${lineNum++} Y${(-yOffset).toFixed(3)}`);
+            lines.push(`N${lineNum++} Y${fmt(-yOffset)}`);
         }
     }
 
